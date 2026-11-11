@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FA 계약 해지 프로필 - ㄷㄹ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        t1red: '#E4002B',
+                        t1darkred: '#99001C',
+                        t1black: '#0F0F11',
+                        t1gray: '#1E1E24',
+                        t1lightgray: '#2C2C35',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0F11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E4002B;
+            border-radius: 4px;
+        }
+
+        /* Card Flip Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Glitch Text Effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+        .glitch::before {
+            left: -2px;
+            text-shadow: 2px 0 #E4002B;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: 2px;
+            text-shadow: -2px 0 #00ffff;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(20px, 9999px, 15px, 0); }
+            20% { clip: rect(50px, 9999px, 80px, 0); }
+            40% { clip: rect(10px, 9999px, 40px, 0); }
+            60% { clip: rect(70px, 9999px, 20px, 0); }
+            80% { clip: rect(30px, 9999px, 60px, 0); }
+            100% { clip: rect(90px, 9999px, 10px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(40px, 9999px, 30px, 0); }
+            20% { clip: rect(10px, 9999px, 70px, 0); }
+            40% { clip: rect(80px, 9999px, 10px, 0); }
+            60% { clip: rect(20px, 9999px, 50px, 0); }
+            80% { clip: rect(60px, 9999px, 90px, 0); }
+            100% { clip: rect(30px, 9999px, 40px, 0); }
+        }
+
+        /* Shake Effect on Wrong Quiz */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="bg-t1black text-gray-100 font-sans min-h-screen flex flex-col justify-between selection:bg-t1red selection:text-white pb-10">
+
+    <!-- Header / Nav -->
+    <header class="border-b border-t1red/30 bg-t1gray/90 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-4xl mx-mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="bg-t1red text-white text-xs font-black px-2 py-1 rounded tracking-widest uppercase animate-pulse">TERMINATED</span>
+                <span class="font-extrabold text-lg text-white tracking-wider">OFFICIAL ANNOUNCEMENT</span>
+            </div>
+            <div class="text-xs text-gray-400 font-mono">
+                STATUS: <span class="text-t1red font-bold">FA (FREE AGENT)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 w-full space-y-12">
+
+        <!-- Banner & Main Profile (T1 Farewell Style) -->
+        <section class="bg-gradient-to-b from-t1gray to-t1black border border-t1red/40 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+            <!-- Background Watermark Text -->
+            <div class="absolute -right-10 -bottom-10 opacity-5 select-none pointer-events-none text-9xl font-black italic text-white">
+                THANK YOU
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                <!-- Profile Silhouette / Avatar -->
+                <div class="relative group">
+                    <div class="w-40 h-40 md:w-48 md:h-48 rounded-2xl bg-t1lightgray border-2 border-t1red flex items-center justify-center overflow-hidden shadow-lg shadow-t1red/20 relative">
+                        <i class="fa-solid fa-user-ninja text-7xl text-gray-600 group-hover:scale-110 transition duration-300"></i>
+                        <div class="absolute bottom-0 w-full bg-t1red/90 text-center py-1 text-xs font-bold tracking-widest text-white">
+                            FA AGENT
+                        </div>
+                    </div>
+                    <div class="absolute -top-3 -right-3 bg-t1red text-white p-2 rounded-full shadow-lg">
+                        <i class="fa-solid fa-[#0000] fa-xmark text-lg w-5 h-5 flex items-center justify-center font-extrabold"></i>
+                    </div>
+                </div>
+
+                <!-- Text Info -->
+                <div class="flex-1 text-center md:text-left space-y-3">
+                    <div class="inline-block bg-t1red/20 border border-t1red text-t1red text-xs px-3 py-1 rounded-full font-bold">
+                        [공식 승인] 상호 합의 하 계약 해지
+                    </div>
+                    
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight text-white">
+                        THANK YOU, <span class="text-t1red glitch" data-text="ㄷㄹ">ㄷㄹ</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+                        그동안 T1과 함께해 준 <strong class="text-white font-bold">'ㄷㄹ'</strong> 선수와의 전속 계약이 종료되었습니다.<br>
+                        남다른 텐션과 전력 분석(또는 억까)으로 팀에 기여했던 헌신에 감사드리며, 새로운 도전을 응원합니다!
+                    </p>
+
+                    <!-- Stats Badges -->
+                    <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start text-xs font-mono">
+                        <span class="bg-t1lightgray px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300">
+                            🏷️ ID: <strong class="text-white">ㄷㄹ</strong>
+                        </span>
+                        <span class="bg-t1lightgray px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300">
+                            🎮 Position: <strong class="text-t1red">방구석 챌린저</strong>
+                        </span>
+                        <span class="bg-t1lightgray px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300">
+                            🔥 Form: <strong class="text-gold">FA 시장 대어</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Favorite Cards (Interactive 3D Flip) -->
+        <section class="space-y-4">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-extrabold text-white flex items-center justify-center md:justify-start gap-2">
+                    <i class="fa-solid fa-heart text-t1red"></i>
+                    <span>ㄷㄹ가 좋아하는 것 3가지</span>
+                </h2>
+                <p class="text-xs text-gray-400 mt-1">카드를 클릭하여 방출 사유(?)...가 아닌 좋아하는 이유를 확인하세요!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1: 월즈 우승자 도란 -->
+                <div class="h-64 perspective-1000 cursor-pointer group" onclick="flipCard(this)">
+                    <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl shadow-xl">
+                        <!-- Front -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1gray to-t1lightgray border-2 border-gold/40 rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden group-hover:border-gold transition">
+                            <div class="bg-gold/10 text-gold p-3 rounded-full">
+                                <i class="fa-solid fa-trophy text-3xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gold uppercase tracking-widest font-bold">FA TOP PICK #1</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1">월즈 우승자 도란</h3>
+                            </div>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> 클릭해서 이유 보기
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1darkred to-t1black border-2 border-t1red rounded-2xl p-6 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
+                            <i class="fa-solid fa-quote-left text-t1red text-xl mb-2"></i>
+                            <p class="text-sm font-medium text-gray-200 leading-relaxed">
+                                "탑에서 탑 차이를 내주는 묵직한 턴과 슈퍼플레이! 억까를 이겨내고 왕관을 쓴 자, 그 이름은 '갓도란'... 숭배하지 않을 수 없음!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: 영~준 -->
+                <div class="h-64 perspective-1000 cursor-pointer group" onclick="flipCard(this)">
+                    <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl shadow-xl">
+                        <!-- Front -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1gray to-t1lightgray border-2 border-t1red/40 rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden group-hover:border-t1red transition">
+                            <div class="bg-t1red/10 text-t1red p-3 rounded-full">
+                                <i class="fa-solid fa-bolt text-3xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-t1red uppercase tracking-widest font-bold">FA TOP PICK #2</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1">영~준</h3>
+                            </div>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> 클릭해서 이유 보기
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1darkred to-t1black border-2 border-t1red rounded-2xl p-6 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
+                            <i class="fa-solid fa-quote-left text-t1red text-xl mb-2"></i>
+                            <p class="text-sm font-medium text-gray-200 leading-relaxed">
+                                "이름만 불러도 쫀득함이 느껴지는 '영~준'! 입에 착착 감기는 그 특유의 억울함과 감성은 인생의 자양분임."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: T1 제우스 -->
+                <div class="h-64 perspective-1000 cursor-pointer group" onclick="flipCard(this)">
+                    <div class="relative w-full h-full duration-500 transform-style-3d transition-transform rounded-2xl shadow-xl">
+                        <!-- Front -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1gray to-t1lightgray border-2 border-blue-500/40 rounded-2xl p-6 flex flex-col justify-between items-center text-center backface-hidden group-hover:border-blue-500 transition">
+                            <div class="bg-blue-500/10 text-blue-400 p-3 rounded-full">
+                                <i class="fa-solid fa-shield-halved text-3xl"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-blue-400 uppercase tracking-widest font-bold">FA TOP PICK #3</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1">T1 제우스</h3>
+                            </div>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-rotate"></i> 클릭해서 이유 보기
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-t1darkred to-t1black border-2 border-t1red rounded-2xl p-6 flex flex-col justify-center items-center text-center rotate-y-180 backface-hidden">
+                            <i class="fa-solid fa-quote-left text-t1red text-xl mb-2"></i>
+                            <p class="text-sm font-medium text-gray-200 leading-relaxed">
+                                "역대급 피지컬과 신의 모습을 보여주던 T1 시절의 제우스를 잊지 못함... 언제나 내 마음속 낭만 탑솔러!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- OX Quiz Section -->
+        <section class="bg-t1gray border border-gray-800 rounded-2xl p-6 md:p-8 space-y-6 relative overflow-hidden" id="quiz-section">
+            <div class="flex items-center gap-3">
+                <span class="bg-t1red text-white text-xs font-bold px-2.5 py-1 rounded">MINI GAME</span>
+                <h2 class="text-xl md:text-2xl font-bold text-white">T1 팬 자격 검정 OX 퀴즈</h2>
+            </div>
+
+            <div class="bg-t1black/60 rounded-xl p-6 text-center space-y-4 border border-gray-800">
+                <p class="text-gray-400 text-xs font-mono">Q. 다음 명제가 참인지 거짓인지 맞히시오.</p>
+                <h3 class="text-2xl md:text-3xl font-black text-white">"도란은 챌린저다"</h3>
+                
+                <div class="flex justify-center gap-4 pt-2">
+                    <button onclick="checkQuiz('O')" class="w-28 py-3 bg-t1lightgray hover:bg-t1red hover:text-white border border-gray-700 text-2xl font-black rounded-xl transition duration-200 flex items-center justify-center gap-2 group">
+                        <span class="group-hover:scale-125 transition duration-200">O</span>
+                    </button>
+                    <button onclick="checkQuiz('X')" class="w-28 py-3 bg-t1lightgray hover:bg-t1red hover:text-white border border-gray-700 text-2xl font-black rounded-xl transition duration-200 flex items-center justify-center gap-2 group">
+                        <span class="group-hover:scale-125 transition duration-200">X</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Display Box -->
+            <div id="quiz-result" class="hidden p-4 rounded-xl text-center font-bold transition-all duration-300">
+                <p id="quiz-result-text" class="text-lg"></p>
+                <p id="quiz-result-sub" class="text-xs font-normal mt-1 text-gray-300"></p>
+            </div>
+        </section>
+
+        <!-- Quote Generator -->
+        <section class="bg-gradient-to-r from-t1gray via-t1lightgray to-t1gray border border-t1red/30 rounded-2xl p-6 md:p-8 text-center space-y-6">
+            <div>
+                <span class="text-xs text-t1red font-extrabold uppercase tracking-widest">FA 방출자의 멘탈 케어</span>
+                <h2 class="text-2xl font-extrabold text-white mt-1">ㄷㄹ의 나만의 명언 생성기</h2>
+            </div>
+
+            <div class="bg-t1black/80 rounded-xl p-6 min-h-[120px] flex flex-col justify-center items-center border border-gray-800 relative shadow-inner">
+                <i class="fa-solid fa-quote-left absolute top-3 left-4 text-t1red/20 text-3xl"></i>
+                <p id="quote-text" class="text-base md:text-lg font-bold text-gray-100 z-10">
+                    "버튼을 눌러 ㄷㄹ의 명언을 뽑아보세요."
+                </p>
+                <i class="fa-solid fa-quote-right absolute bottom-3 right-4 text-t1red/20 text-3xl"></i>
+            </div>
+
+            <button onclick="generateQuote()" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-t1red to-t1darkred hover:from-red-600 hover:to-t1red text-white font-extrabold rounded-xl shadow-lg shadow-t1red/30 hover:shadow-t1red/50 transition duration-300 active:scale-95 flex items-center justify-center gap-2 mx-auto">
+                <i class="fa-solid fa-dice text-lg"></i>
+                <span>명언 생성하기</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-500 py-6 border-t border-gray-800">
+        <p>© 2026 ㄷㄹ. All rights reserved by FA Market.</p>
+        <p class="mt-1 text-gray-600">이 웹페이지는 재미로 만들어진 프로필이며 T1 공식 사이트가 아닙니다.</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // 1. Card Flip Event Logic
+        function flipCard(cardElement) {
+            const innerCard = cardElement.querySelector('.transform-style-3d');
+            if (innerCard) {
+                innerCard.classList.toggle('rotate-y-180');
+            }
+        }
+
+        // 2. OX Quiz Logic
+        function checkQuiz(userAnswer) {
+            const resultBox = document.getElementById('quiz-result');
+            const resultText = document.getElementById('quiz-result-text');
+            const resultSub = document.getElementById('quiz-result-sub');
+            const quizSection = document.getElementById('quiz-section');
+
+            resultBox.classList.remove('hidden', 'bg-emerald-900/80', 'border-emerald-500', 'bg-red-950/80', 'border-red-500', 'text-emerald-300', 'text-red-400');
+            quizSection.classList.remove('shake');
+
+            // Correct Answer is 'X'
+            if (userAnswer === 'X') {
+                resultBox.classList.add('bg-emerald-900/80', 'border', 'border-emerald-500', 'text-emerald-300');
+                resultText.innerHTML = '<i class="fa-solid fa-circle-check"></i> 정답입니다! 🎉 (X)';
+                resultSub.innerText = "도란의 솔로랭크 계정('어리고싶다#KR1') 검색 결과, 현재 그랜드마스터~마스터 구간(약 770~1600 LP)을 오가는 중입니다! 챌린저 승급 대기 중!";
+                
+                // Fire Confetti Animation
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            } else {
+                resultBox.classList.add('bg-red-950/80', 'border', 'border-red-500', 'text-red-400');
+                resultText.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> 틀렸습니다! 😭 (O가 아님)';
+                resultSub.innerText = "OP.GG 전적 검색 결과, 현재 챌린저 커트라인(약 1,840+ LP)에 조금 못 미친 그랜드마스터/마스터 구간에 위치해 있어 정답은 X입니다! 다시 도전해보세요!";
+                
+                // Trigger Shake Animation
+                setTimeout(() => {
+                    quizSection.classList.add('shake');
+                }, 10);
+            }
+        }
+
+        // 3. Quotes Array (10+ items) & Generator Function
+        const quotes = [
+            "FA 시장에 나온 ㄷㄹ, 이것이 진짜 '자유'인가?",
+            "탑 차이는 내가 내는 것이 아니다. 상대가 내주는 것이다.",
+            "팀을 나오는 순간 깨달았다. 방구석이야말로 나의 진짜 정글이었음을.",
+            "재계약서 서명 전으로 돌아갈 수 있다면,펜을 들기도 전에 억까당했다고 핑계를 대겠다.",
+            "세계 최고 Top? 아니다. 세계 최고 억울함 담당 ㄷㄹ이다.",
+            "솔로랭크 억까를 이겨내는 자가 진정한 챔피언이다.",
+            "T1을 떠났어도 낭만과 텐션은 방출되지 않는다.",
+            "중요한 것은 꺾이지 않는 멘탈과 끊이지 않는 억까다.",
+            "명언을 찾지 마라. ㄷㄹ의 모든 한숨이 곧 명언이다.",
+            "영~준아! 부르면 언제나 튀어나오는 것이 진정한 우정이다.",
+            "오늘 솔랭 5연패를 했어도, 내일의 ㄷㄹ는 다시 큐를 돌린다.",
+            "방출은 새로운 픽셀을 채우기 위한 백스페이스일 뿐."
+        ];
+
+        function generateQuote() {
+            const quoteText = document.getElementById('quote-text');
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            
+            // Subtle Fade effect
+            quoteText.style.opacity = 0;
+            setTimeout(() => {
+                quoteText.innerText = `"${quotes[randomIndex]}"`;
+                quoteText.style.opacity = 1;
+            }, 150);
+        }
+    </script>
+</body>
+</html>
